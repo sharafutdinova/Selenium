@@ -13,21 +13,50 @@ namespace SeleniumTest
     [TestClass]
     public class TestBase
     {
-        
+
         private IWebDriver driver;
         private string baseURL;
 
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-        
-        [TestMethod]
-        public void TestMethod1()
+        [TestInitialize]
+        public void BeforeTest()
         {
             driver = new ChromeDriver();
-            baseURL = "https://software-testing.ru/lms/my/";
-            driver.Navigate().GoToUrl(baseURL);
+        }
+        
+        public void OpenPage(string address)
+        {
+            driver.Navigate().GoToUrl(address);
+        }
+
+        public void Login(string login, string password)
+        {
+            try
+            {
+                driver.FindElement(By.Name("username")).SendKeys(login);
+                driver.FindElement(By.Name("password")).SendKeys(password);
+                driver.FindElement(By.Name("login")).Click();
+            }
+            catch { throw new KeyNotFoundException("Element not found"); }
+        }
+
+        [TestMethod]
+        public void LoginTest()
+        {
+            baseURL = "http://localhost/litecard/admin/login.php";
+            OpenPage(baseURL);
+            Login("admin", "admin");           
+        }
+
+        [TestMethod]
+        public void OpenPage()
+        {
+            baseURL = "https://software-testing.ru/";
+            OpenPage(baseURL);
+        }
+
+        [TestCleanup]
+        public void AfterTest()
+        {
             driver.Quit();
         }
     }

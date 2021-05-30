@@ -29,6 +29,7 @@ namespace SeleniumTest
             //FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
             //service.FirefoxBinaryPath = @"C:\Program Files\Firefox Nightly\firefox.exe";
             //driver = new FirefoxDriver();
+            LoginTest();
         }   
 
         [TestMethod]
@@ -49,8 +50,14 @@ namespace SeleniumTest
         [TestMethod]
         public void Menu()
         {
-            LoginTest();
             GetMenu();
+        }
+
+        [TestMethod]
+        public void CheckStics()
+        {
+            OpenPage("http://localhost/litecart/en/");
+            CheckSticsCount();
         }
 
 

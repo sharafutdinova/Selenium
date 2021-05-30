@@ -73,6 +73,26 @@ namespace SeleniumTest
             }
         }
 
+        public void CheckSticsCount()
+        {
+            int count = 0;
+            IReadOnlyCollection<IWebElement> productsList = driver.FindElements(By.CssSelector(".product.column.shadow.hover-light"));
+            foreach (IWebElement e in productsList)
+            {
+                try
+                {
+                    count = e.FindElements(By.CssSelector(".sticker")).Count();
+                    NUnit.Framework.Assert.AreEqual(count, 1);
+                }
+                catch (NoSuchElementException) { throw new NoSuchElementException(); }
+            }
+        }
+
+        public int ElementsCount(By locator)
+        {            
+            return driver.FindElements(locator).Count;
+        }
+
         bool IsElementPresent(IWebDriver driver, By locator)
         {
             try

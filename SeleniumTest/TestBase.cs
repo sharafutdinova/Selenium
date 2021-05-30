@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using NUnit.Framework;
-
+using System.Collections.ObjectModel;
+using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace SeleniumTest
 {
     [TestClass]
-    public class TestBase
+    public partial class TestBase
     {
 
         private IWebDriver driver;
@@ -20,29 +24,17 @@ namespace SeleniumTest
         [TestInitialize]
         public void BeforeTest()
         {
+            //driver = new InternetExplorerDriver();
             driver = new ChromeDriver();
-        }
-        
-        public void OpenPage(string address)
-        {
-            driver.Navigate().GoToUrl(address);
-        }
-
-        public void Login(string login, string password)
-        {
-            try
-            {
-                driver.FindElement(By.Name("username")).SendKeys(login);
-                driver.FindElement(By.Name("password")).SendKeys(password);
-                driver.FindElement(By.Name("login")).Click();
-            }
-            catch { throw new KeyNotFoundException("Element not found"); }
-        }
+            //FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
+            //service.FirefoxBinaryPath = @"C:\Program Files\Firefox Nightly\firefox.exe";
+            //driver = new FirefoxDriver();
+        }   
 
         [TestMethod]
         public void LoginTest()
         {
-            baseURL = "http://localhost/litecard/admin/login.php";
+            baseURL = "http://localhost/litecart/admin/login.php";
             OpenPage(baseURL);
             Login("admin", "admin");           
         }
@@ -53,6 +45,14 @@ namespace SeleniumTest
             baseURL = "https://software-testing.ru/";
             OpenPage(baseURL);
         }
+
+        [TestMethod]
+        public void Menu()
+        {
+            LoginTest();
+            GetMenu();
+        }
+
 
         [TestCleanup]
         public void AfterTest()

@@ -40,6 +40,49 @@ namespace SeleniumTest
             catch { throw new KeyNotFoundException("Element not found"); }
         }
 
+        public void CheckItemPage()
+        {
+            OpenPage("http://localhost/litecart/en/");
+            IWebElement first = driver.FindElement(By.CssSelector("#box-campaigns .product"));
+            string name = first.FindElement(By.ClassName("name")).Text;
+            IWebElement cprice = first.FindElement(By.CssSelector("strong.campaign-price"));
+            IWebElement rprice = first.FindElement(By.CssSelector("s.regular-price"));
+            NUnit.Framework.Assert.IsTrue(CheckPricesColor(cprice, rprice));
+            string cprice1 = cprice.Text;
+            string rprice1 = rprice.Text;
+
+            first.Click();
+            Thread.Sleep(2000);
+            first = driver.FindElement(By.CssSelector("#box-product"));
+            string name2 = first.FindElement(By.CssSelector("h1.title")).Text;
+            cprice = first.FindElement(By.CssSelector("strong.campaign-price"));
+            rprice = first.FindElement(By.CssSelector("s.regular-price"));
+            NUnit.Framework.Assert.IsTrue(CheckPricesColor(cprice, rprice));
+
+            NUnit.Framework.Assert.AreEqual(name, name2);
+            NUnit.Framework.Assert.AreEqual(cprice1, cprice.Text);
+            NUnit.Framework.Assert.AreEqual(rprice1, rprice.Text);
+        }
+
+        public bool CheckPricesColor(IWebElement price1, IWebElement price2)
+        {
+            string colorCPrice = price1.GetCssValue("color").Replace(" ", "").Replace("rgb", "").Replace("(", "").Replace("a", "").Replace(")", "");
+            string colorRPrice = price2.GetCssValue("color").Replace(" ", "").Replace("rgb", "").Replace("(", "").Replace("a", "").Replace(")", "");
+            if (colorCPrice.Split(',')[1] == "0" && colorCPrice.Split(',')[2] == "0")
+            {
+                if (colorRPrice.Split(',')[0] == colorRPrice.Split(',')[1] && colorRPrice.Split(',')[1] == colorRPrice.Split(',')[2])
+                {
+                    if (price1.Size.Width > price2.Size.Width && price1.Size.Height > price2.Size.Height)
+                    {
+                        return true;
+                    }
+                    else { return false; }
+                }
+                else { return false; }
+            }
+            else { return false; }
+        }
+
         public void GetMenu()
         {
             IWebElement a = driver.FindElement(By.Id("box-apps-menu-wrapper"));

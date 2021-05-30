@@ -25,11 +25,11 @@ namespace SeleniumTest
         public void BeforeTest()
         {
             //driver = new InternetExplorerDriver();
-            driver = new ChromeDriver();
+            //driver = new ChromeDriver();
             //FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
             //service.FirefoxBinaryPath = @"C:\Program Files\Firefox Nightly\firefox.exe";
             //driver = new FirefoxDriver();
-            LoginTest();
+            //LoginTest();
         }   
 
         [TestMethod]
@@ -71,6 +71,20 @@ namespace SeleniumTest
         public void CheckZonesOrder()
         {
             CheckOrderOfGeoZones();
+        }
+
+        [TestMethod]
+        public void Campaigns()
+        {
+            driver = new ChromeDriver();
+            CheckItemPage();
+            driver.Quit();
+            driver = new FirefoxDriver();
+            CheckItemPage();
+            driver.Quit();
+            driver = new InternetExplorerDriver();
+            CheckItemPage();
+            driver.Quit();
         }
 
 

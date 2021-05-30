@@ -60,6 +60,19 @@ namespace SeleniumTest
             CheckSticsCount();
         }
 
+        [TestMethod]
+        public void CheckCountriesOrder()
+        {
+            CheckOrderOfCountries();
+            CheckOrderOfSubCountries();
+        }
+
+        [TestMethod]
+        public void CheckZonesOrder()
+        {
+            CheckOrderOfGeoZones();
+        }
+
 
         [TestCleanup]
         public void AfterTest()

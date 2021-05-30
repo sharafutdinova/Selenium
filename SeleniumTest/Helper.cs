@@ -88,6 +88,82 @@ namespace SeleniumTest
             }
         }
 
+        public void CheckOrderOfCountries()
+        {
+            OpenPage("http://localhost/litecart/admin/?app=countries&doc=countries");
+            IReadOnlyCollection<IWebElement> list = driver.FindElements(By.CssSelector("table.dataTable tr.row a"));
+            List<string> namesList = new List<string>();
+            string name;
+            for (int i = 0; i < list.Count; i = i + 2)
+            {
+                name = list.ElementAt(i).GetAttribute("text");
+                namesList.Add(name);
+            }
+
+            NUnit.Framework.Assert.IsTrue(CheckStringListOrder(namesList));
+        }
+
+        public void CheckOrderOfSubCountries()
+        {
+            OpenPage("http://localhost/litecart/admin/?app=countries&doc=countries");
+            IReadOnlyCollection<IWebElement> list = driver.FindElements(By.CssSelector("table.dataTable tr.row td"));
+            IReadOnlyCollection<IWebElement> subCountries;
+            for (int i = 5; i < list.Count; i = i + 7)
+            {
+                var s = list.ElementAt(i).GetAttribute("textContent");
+                if (s!="0")
+                {
+                    list.ElementAt(i + 1).Click();
+                    List<string> names = new List<string>();
+                    subCountries = driver.FindElements(By.CssSelector("table.dataTable [type=hidden][name*=name]"));
+                    for (int j = 0; j < subCountries.Count; j++)
+                    {
+                        names.Add(subCountries.ElementAt(0).GetAttribute("value"));
+                    }
+                    CheckStringListOrder(names);
+                    OpenPage("http://localhost/litecart/admin/?app=countries&doc=countries");
+                    list = driver.FindElements(By.CssSelector("table.dataTable tr.row td"));
+                }
+            }
+            
+        }
+
+        public void CheckOrderOfGeoZones()
+        {
+            OpenPage("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+            IReadOnlyCollection<IWebElement> list = driver.FindElements(By.CssSelector("table.dataTable tr.row a"));
+            IReadOnlyCollection<IWebElement> zones;
+            for (int i = 0; i < list.Count; i = i + 2)
+            {
+                list.ElementAt(i).Click();
+                List<string> zonesName = new List<string>();
+                zones = driver.FindElements(By.CssSelector("[selected=selected]"));
+                for (int j = 1; j < zones.Count; j = j + 2)
+                {
+                    zonesName.Add(zones.ElementAt(j).GetAttribute("text"));
+                }
+                NUnit.Framework.Assert.IsTrue(CheckStringListOrder(zonesName));
+                
+                OpenPage("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+                list = driver.FindElements(By.CssSelector("table.dataTable tr.row a"));
+            }
+            
+        }
+
+        public bool CheckStringListOrder(List<string> list)
+        {
+            List<string> orderedList = list.OrderBy(n => n).ToList();
+            bool orderIsCorrect = true;
+            for (int i = 0; i < orderedList.Count; i++)
+            {
+                if (list[i] != orderedList[i])
+                {
+                    orderIsCorrect = false;
+                }
+            }
+            return orderIsCorrect;
+        }
+
         public int ElementsCount(By locator)
         {            
             return driver.FindElements(locator).Count;

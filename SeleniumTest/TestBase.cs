@@ -56,6 +56,7 @@ namespace SeleniumTest
         [TestMethod]
         public void CheckStics()
         {
+            driver = new ChromeDriver();
             OpenPage("http://localhost/litecart/en/");
             CheckSticsCount();
         }

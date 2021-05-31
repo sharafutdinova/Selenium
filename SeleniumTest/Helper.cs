@@ -119,7 +119,7 @@ namespace SeleniumTest
         public void CheckSticsCount()
         {
             int count = 0;
-            IReadOnlyCollection<IWebElement> productsList = driver.FindElements(By.CssSelector(".product.column.shadow.hover-light"));
+            IReadOnlyCollection<IWebElement> productsList = driver.FindElements(By.CssSelector(".product"));//column.shadow.hover-light
             foreach (IWebElement e in productsList)
             {
                 try

@@ -47,6 +47,9 @@ namespace SeleniumTest
             string name = first.FindElement(By.ClassName("name")).Text;
             IWebElement cprice = first.FindElement(By.CssSelector("strong.campaign-price"));
             IWebElement rprice = first.FindElement(By.CssSelector("s.regular-price"));
+            decimal rpriceSize = Convert.ToDecimal(rprice.GetCssValue("font-size").Replace("px", "").Replace(".", ","));
+            decimal cpriceSize = Convert.ToDecimal(cprice.GetCssValue("font-size").Replace("px", "").Replace(".", ","));
+            NUnit.Framework.Assert.IsTrue(cpriceSize>rpriceSize);
             NUnit.Framework.Assert.IsTrue(CheckPricesColor(cprice, rprice));
             string cprice1 = cprice.Text;
             string rprice1 = rprice.Text;
@@ -58,6 +61,10 @@ namespace SeleniumTest
             cprice = first.FindElement(By.CssSelector("strong.campaign-price"));
             rprice = first.FindElement(By.CssSelector("s.regular-price"));
             NUnit.Framework.Assert.IsTrue(CheckPricesColor(cprice, rprice));
+            rpriceSize = Convert.ToDecimal(rprice.GetCssValue("font-size").Replace("px", "").Replace(".", ","));
+            cpriceSize = Convert.ToDecimal(cprice.GetCssValue("font-size").Replace("px", "").Replace(".", ","));
+            NUnit.Framework.Assert.IsTrue(cpriceSize > rpriceSize);
+
 
             NUnit.Framework.Assert.AreEqual(name, name2);
             NUnit.Framework.Assert.AreEqual(cprice1, cprice.Text);
@@ -72,11 +79,7 @@ namespace SeleniumTest
             {
                 if (colorRPrice.Split(',')[0] == colorRPrice.Split(',')[1] && colorRPrice.Split(',')[1] == colorRPrice.Split(',')[2])
                 {
-                    if (price1.Size.Width > price2.Size.Width && price1.Size.Height > price2.Size.Height)
-                    {
-                        return true;
-                    }
-                    else { return false; }
+                        return true;                    
                 }
                 else { return false; }
             }

@@ -20,6 +20,7 @@ namespace SeleniumTest
 
         private IWebDriver driver;
         private string baseURL;
+        private WebDriverWait wait;
 
         [TestInitialize]
         public void BeforeTest()

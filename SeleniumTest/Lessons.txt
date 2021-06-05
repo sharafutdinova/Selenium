@@ -1,0 +1,48 @@
+﻿string href = link.GetAttribute("href");
+
+if (button.Displayed)
+{
+  button.Click();
+}
+
+string txt = link.Text;
+
+string color = link.GetCssValue("color");
+
+Point location = link.Location;
+Size size = link.Size;
+
+
+searchField.SendKeys("selenium" + Keys.Enter);
+
+// если в поле есть маска -- надо перед вводом текста перейти в начало
+dateField.SendKeys(Keys.Home + "01.01.2001");
+
+new Actions(driver)
+    .MoveToElement(drag)
+    .ClickAndHold()
+    .MoveToElement(drop)
+    .Release()
+    .Perform();
+	
+	
+WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.Name("q")));
+IWebElement element2 = wait.Until(d => d.FindElement(By.Name("q")));
+
+WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+driver.Navigate().Refresh();
+wait.Until(ExpectedConditions.StalenessOf(element));
+
+WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(ExpectedConditions.ElementIsVisible(element));
+
+
+
+явное ожидание появления элемента
+WebdriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.Name("q")));
+
+настройка неявных ожиданий
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+IWebElement element = driver.FindElement(By.Name("q"));

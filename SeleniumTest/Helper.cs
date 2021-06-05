@@ -227,13 +227,5 @@ namespace SeleniumTest
                 return false;
             }
         }
-        // явное ожидание появления элемента
-        //WebdriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        //IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.Name("q")));
-
-        // настройка неявных ожиданий
-        //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-        //IWebElement element = driver.FindElement(By.Name("q"));
-
     }
 }

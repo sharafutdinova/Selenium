@@ -34,18 +34,19 @@ namespace SeleniumTest
 
             driver.FindElement(By.CssSelector("#cart a[class=link]")).Click();
 
-            int count = driver.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count;
-            for (int i = count; i > 5; i--)
+            int count = driver.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count;//init of counter
+            while (IsElementNotPresented(By.CssSelector("#checkout-cart-wrapper em")))
             {
-                driver.FindElement(By.CssSelector("button[value=Remove]")).Click();
-                if (i > 6)
+                if (IsElementPresented(By.CssSelector("li[class=shortcut]")))
                 {
-                    wait.Until(d => d.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count == count - 1);
-                    count = driver.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count;
+                    driver.FindElement(By.CssSelector("li[class=shortcut]")).Click();
+                    driver.FindElement(By.CssSelector("button[value=Remove]")).Click();
+                    wait.Until(d => d.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count == count - 1);//checking that item is deleted
+                    count = driver.FindElements(By.CssSelector("#order_confirmation-wrapper tr")).Count;//updating counter
                 }
                 else
-                    NUnit.Framework.Assert.IsTrue(IsElementPresented(By.CssSelector("#checkout-cart-wrapper em")));
-            }
+                    driver.FindElement(By.CssSelector("button[value=Remove]")).Click();//removing of last item
+            }            
         }
 
         public void AddProduct()
@@ -86,7 +87,7 @@ namespace SeleniumTest
                 driver.FindElement(locator);
                 return true;
             }
-            catch (NoSuchElementException)
+            catch 
             {
                 return false;
             }

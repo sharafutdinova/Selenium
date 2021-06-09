@@ -24,7 +24,6 @@ namespace SeleniumTest
             driver = new ChromeDriver();
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Navigate().Refresh();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             OpenPage("http://localhost/litecart/en/");
             for (int i = 0; i < 3; i++)
             {
@@ -73,7 +72,7 @@ namespace SeleniumTest
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 return false;
             }
-            catch (NoSuchElementException)
+            catch 
             {
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 return true;

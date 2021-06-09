@@ -46,3 +46,36 @@ IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.Name("q")))
 настройка неявных ожиданий
 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 IWebElement element = driver.FindElement(By.Name("q"));
+
+
+IAlert alert = driver.SwitchTo().Alert();
+string alertText = alert.Text;
+alert.Accept();
+// либо alert.Dismiss();
+
+
+Как прицепить файл к невидимому полю ввода -- http://barancev.github.io/how-to-attach-file-to-invisible-field/
+
+string mainWindow = driver.CurrentWindowHandle;
+ICollection<string> oldWindows = driver.WindowHandles;
+link.Click(); // открывает новое окно
+// ожидание появления нового окна,
+// идентификатор которого отсутствует в списке oldWindows,
+// остаётся в качестве самостоятельного упражнения
+string newWindow = wait.Until(ThereIsWindowOtherThan(oldWindows));
+driver.SwitchTo().Window(newWindow);
+// ...
+driver.Close();
+driver.SwitchTo().Window(mainWindow);
+
+driver.SwitchTo().Frame(driver.FindElement(By.TagName("iframe")));
+driver.SwitchTo().DefaultContent();
+
+IWindow window = driver.Manage().Window;
+window.Size = new System.Drawing.Size(800, 600);
+window.Maximize();
+
+
+How To Download Files With Selenium And Why You Shouldn’t:
+http://ardesco.lazerycode.com/testing/webdriver/2012/07/25/how-to-download-files-with-selenium-and-why-you-shouldnt.html
+

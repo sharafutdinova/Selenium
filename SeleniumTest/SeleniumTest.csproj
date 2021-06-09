@@ -69,6 +69,7 @@
     <Compile Include="HW11.cs" />
     <Compile Include="HW12.cs" />
     <Compile Include="HW13.cs" />
+    <Compile Include="HW14.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

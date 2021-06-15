@@ -102,7 +102,7 @@ namespace SeleniumTest
                 {
                     driver.FindElement(By.CssSelector("td#content h1"));
                 }
-                catch (ElementNotInteractableException) { throw new Exception("No header"); }
+                catch  { throw new Exception("No header"); }
                 
                 for (int j = 0; j< sublist.Count; j++)
                 {
@@ -112,7 +112,7 @@ namespace SeleniumTest
                     {
                         driver.FindElement(By.CssSelector("td#content h1"));
                     }
-                    catch (ElementNotInteractableException) { throw new Exception("No header"); }
+                    catch  { throw new Exception("No header"); }
 
                 }
                 list = driver.FindElements(By.Id("app-"));

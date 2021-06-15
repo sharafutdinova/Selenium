@@ -79,3 +79,29 @@ window.Maximize();
 How To Download Files With Selenium And Why You Shouldn’t:
 http://ardesco.lazerycode.com/testing/webdriver/2012/07/25/how-to-download-files-with-selenium-and-why-you-shouldnt.html
 
+IWebDriver driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), new ChromeOptions());
+
+Более старая документация, более подробная, но может содержать неактуальную информацию:
+https://github.com/SeleniumHQ/selenium/wiki/Grid2
+
+Более новая документация, пока не очень подробная, но зато должна быть актуальная:
+https://seleniumhq.github.io/docs/site/en/grid/
+
+EventFiringWebDriver driver = new EventFiringWebDriver(new ChromeDriver());
+driver.FindingElement += (sender, e) => Console.WriteLine(e.FindMethod);
+driver.FindElementCompleted += (sender, e) => Console.WriteLine(e.FindMethod + " found");
+driver.ExceptionThrown += (sender, e) => Console.WriteLine(e.ThrownException);
+
+driver.GetScreenshot().SaveAsFile("screen.png", ImageFormat.Png);
+
+foreach (LogEntry l in driver.Manage().Logs.GetLog("browser"))
+{
+    Console.WriteLine(l);
+}
+
+Proxy proxy = new Proxy();
+proxy.Kind = ProxyKind.Manual;
+proxy.HttpProxy = "localhost:8888";
+ChromeOptions options = new ChromeOptions();
+options.Proxy = proxy;
+IWebDriver driver = new ChromeDriver(options);
